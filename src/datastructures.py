@@ -40,12 +40,13 @@ class FamilyStructure:
         return randint(0, 99999999)
 
     def add_member(self, member):
-        self._members.append(member)     
+        self._members.append(member)   
+        
 
     def delete_member(self, id):
-        id_delete = [member for member in self._members if member["id"] == id]
-        self._members.remove(id_delete)
-        return id_delete
+        for member in self._members:
+            if member["id"] == id:
+                self._members.remove(member)
     
     def get_member(self, id):
         id_member = [member for member in self._members if member["id"] == id]

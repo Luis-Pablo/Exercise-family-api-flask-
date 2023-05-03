@@ -64,17 +64,30 @@ def create_member():
     return jsonify({'message': 'create new member'})
 
 
-@app.route('/members', methods=['DELETE'])
-def delete():
-    member = jackson_family.delete_member()
+@app.route('/members/<int:id>', methods=['PUT'])
+def update_member(id):
+    new_member = jackson_family.get_member(id)
+    new_member = {
+        "id": id,
+        "first_name": request.json['first_name'],
+        "age": request.json["age"],
+        "last_name": "Jackson",
+        "lucky_numbers": request.json["lucky_numbers"]
+    }
+    jackson_family.delete_member(id)
+    jackson_family.add_member(new_member)
+    return jsonify({'message': 'Update data'})
+
+
+@app.route('/members/<int:id>', methods=['DELETE'])
+def delete(id):
+    member = jackson_family.delete_member(id)
+    
     response_body = {
         "menssage": "member family delete",
-        "family": member
+        "member": member
     }
     return jsonify(response_body), 200
-
-
-
 
 
 # this only runs if `$ python src/app.py` is executed
